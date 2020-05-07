@@ -4,18 +4,20 @@ import { h, render } from "preact";
 
 let host = "https://data.irozhlas.cz/anketa-ricin";
 if (window.location.hostname === "localhost") {
-  host = "http://localhost/anketa-ricin";
+  host = "http://localhost/anketa-ricin"
 }
 
-const qu1 = 'Cožeto?'
-const qu2 = 'Fakt?'
+const qu1 = 'Přesvědčily vás tajné služby o tom, jak v kauze ricin jednaly?'
+const qu2 = 'Prezident Zeman v úterý v souvislosti s kauzou ricin označil dvě ze tří tajných služeb za zbytečné. Jak se k jeho vyjádření stavíte?'
 
 function printResps(obj) {
+  if (obj.o1 === '') { obj.o1 = '<i>Bez odpovědi.</i>'}
+  if (obj.o2 === '') { obj.o2 = '<i>Bez odpovědi.</i>'}
   return `<b>${qu1}</b><p>${obj.o1}</p><b>${qu2}</b><p>${obj.o2}</p>`
 }
 
 function onLoad(e) {
-  const data = JSON.parse(e.target.response);
+  const data = JSON.parse(e.target.response)
   render((
     <div id="anketa">
       {data.map(el => (
@@ -29,12 +31,10 @@ function onLoad(e) {
         </div>
       ))}
     </div>
-  ), document.getElementById("anketa-wrapper"));
+  ), document.getElementById("anketa-wrapper"))
 }
 
-const r = new XMLHttpRequest();
-r.addEventListener("load", onLoad);
-r.open("GET", host + "/data/data.json");
-r.send();
-
-makeChart();
+const r = new XMLHttpRequest()
+r.addEventListener("load", onLoad)
+r.open("GET", host + "/data/data.json")
+r.send()
